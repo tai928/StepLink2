@@ -144,56 +144,61 @@ document.addEventListener("DOMContentLoaded", async () => {
     tweetInput.addEventListener("input", updateCounter);
   }
 
-  // ========================
-  // ツイート読み込み
-  // ========================
-  function renderTweet(row) {
-    if (!tweetsContainer) return;
-    const article = document.createElement("article");
-    article.className = "post";
+// ========================
+// ツイート表示
+// ========================
+function renderTweet(row) {
+  if (!tweetsContainer) return;
 
-    const name = row.name || "ユーザー";
-    const handle = row.handle || "user";
-    const avatar = row.avatar || "🧑‍💻";
+  const article = document.createElement("article");
+  article.className = "post";
 
-    article.innerHTML = `
-      <div class="post-avatar">${avatar}</div>
-      <div class="post-body">
-        <div class="post-header">
-          <span class="post-name">${escapeHtml(name)}</span>
-          <span class="post-handle">@${escapeHtml(handle)}</span>
-          <span class="post-time">${formatTime(row.created_at)}</span>
-        </div>
-        <div class="post-text">${escapeHtml(row.content)}</div>
+  // いったん名前・アイコンは仮（あとで profiles から持ってくるようにできる）
+  const name = row.name || "ユーザー";
+  const handle = row.handle || "user";
+  const avatar = row.avatar || "🧑‍💻";
+
+  article.innerHTML = `
+    <div class="post-avatar">${avatar}</div>
+    <div class="post-body">
+      <div class="post-header">
+        <span class="post-name">${escapeHtml(name)}</span>
+        <span class="post-handle">@${escapeHtml(handle)}</span>
+        <span class="post-time">${formatTime(row.created_at)}</span>
       </div>
-    `;
-    tweetsContainer.appendChild(article);
+      <div class="post-text">${escapeHtml(row.content)}</div>
+    </div>
+  `;
+  tweetsContainer.appendChild(article);
+}
+
+async function loadTweets() {
+  if (!tweetsContainer) return;
+
+  // ★ profiles(...) の JOIN をやめて、tweets 単体だけにする
+  const { data, error } = await supabaseClient
+    .from("tweets")
+    .select("id,user_id,content,created_at")
+    .order("created_at", { ascending: false })
+    .limit(50);
+
+  tweetsContainer.innerHTML = "";
+
+  if (error) {
+    console.error("tweets load error:", error);
+    return;
   }
 
-  async function loadTweets() {
-    if (!tweetsContainer) return;
-    const { data, error } = await supabaseClient
-      .from("tweets")
-      .select("*, profiles ( name, handle, avatar )")
-      .order("created_at", { ascending: false })
-      .limit(50);
-
-    tweetsContainer.innerHTML = "";
-    if (error) {
-      console.error("tweets load error:", error);
-      return;
-    }
-
-    data.forEach((row) => {
-      const merged = {
-        ...row,
-        name: row.profiles?.name,
-        handle: row.profiles?.handle,
-        avatar: row.profiles?.avatar,
-      };
-      renderTweet(merged);
+  // とりあえず全部「ユーザー / @user / 🧑‍💻」で表示
+  data.forEach((row) => {
+    renderTweet({
+      ...row,
+      name: "ユーザー",
+      handle: "user",
+      avatar: "🧑‍💻",
     });
-  }
+  });
+}
 
   await loadTweets();
 

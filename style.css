@@ -1,0 +1,377 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background: #f4f4f4;
+  color: #222;
+}
+
+/* 色定義 */
+:root {
+  --green-main: #81b33b;
+  --green-hover: #638b2c;
+  --green-press: #4e6d23;
+  --line: #ddd;
+  --bg-white: #fff;
+  --text-sub: #777;
+}
+
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* サイドバー */
+.sidebar-left {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 240px;
+  padding: 20px;
+  background: #f5f5f5;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #333;
+  padding: 10px 14px;
+  border-radius: 12px;
+  transition: 0.2s;
+}
+.nav-item:hover {
+  background: #eee;
+}
+.nav-item.active {
+  background: var(--green-main);
+  color: #fff;
+}
+.nav-item.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.post-button {
+  margin-bottom: 20px;
+  padding: 10px 14px;
+  background: var(--green-main);
+  border: none;
+  color: #fff;
+  border-radius: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.15s;
+}
+.post-button:hover {
+  background: var(--green-hover);
+}
+.post-button:active {
+  background: var(--green-press);
+}
+
+/* アカウント表示 */
+.account-summary {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.account-main {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.account-avatar {
+  font-size: 28px;
+}
+.account-name {
+  font-weight: bold;
+}
+.icon-btn.small {
+  margin-top: 10px;
+  padding: 6px 10px;
+  background: #eee;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.logout-button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: var(--green-main);
+  border: none;
+  color: #fff;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.logout-button:hover {
+  background: var(--green-hover);
+}
+.logout-button:active {
+  background: var(--green-press);
+}
+
+/* タイムライン */
+.timeline {
+  margin-left: 240px;
+  flex: 1;
+  max-width: 700px;
+  margin-right: auto;
+  padding-bottom: 80px;
+}
+
+.timeline-header {
+  border-bottom: 1px solid var(--line);
+  padding: 10px 20px;
+  background: var(--bg-white);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* 新規投稿カード */
+.new-post-card {
+  background: var(--bg-white);
+  margin: 16px 20px;
+  padding: 15px 16px;
+  border-radius: 12px;
+  display: flex;
+  gap: 10px;
+  border: 1px solid var(--line);
+}
+.avatar {
+  font-size: 32px;
+}
+.new-post-body {
+  flex: 1;
+}
+textarea {
+  width: 100%;
+  border: none;
+  resize: none;
+  font-size: 16px;
+  outline: none;
+  background: transparent;
+}
+.new-post-actions {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}
+.char-counter {
+  margin-right: auto;
+  font-size: 12px;
+  color: var(--text-sub);
+}
+#postTweetBtn {
+  padding: 8px 14px;
+  background: var(--green-main);
+  border: none;
+  color: #fff;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.15s;
+}
+#postTweetBtn:hover {
+  background: var(--green-hover);
+}
+#postTweetBtn:active {
+  background: var(--green-press);
+}
+
+/* 投稿一覧 */
+.posts {
+  margin-top: 10px;
+}
+.post {
+  background: var(--bg-white);
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 12px;
+}
+.post-avatar {
+  font-size: 32px;
+}
+.post-header {
+  display: flex;
+  gap: 8px;
+  font-size: 14px;
+  align-items: baseline;
+}
+.post-name {
+  font-weight: bold;
+}
+.post-handle {
+  color: var(--text-sub);
+  font-size: 13px;
+}
+.post-time {
+  color: var(--text-sub);
+  font-size: 12px;
+}
+.post-text {
+  margin-top: 6px;
+  font-size: 15px;
+}
+
+/* モーダル */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+.hidden {
+  display: none !important;
+}
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+.modal-content {
+  position: relative;
+  background: var(--bg-white);
+  width: 90%;
+  max-width: 420px;
+  border-radius: 16px;
+  z-index: 10;
+}
+.modal-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 15px;
+  border-bottom: 1px solid var(--line);
+}
+.modal-body {
+  padding: 16px 18px 20px;
+}
+
+/* 認証モーダル */
+.account-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--line);
+}
+.account-tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+}
+.account-tab.active {
+  border-bottom: 3px solid var(--green-main);
+  font-weight: bold;
+  color: var(--green-main);
+}
+.account-modal-body label {
+  display: block;
+  margin-bottom: 12px;
+}
+.account-modal-body input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin-top: 5px;
+}
+.primary {
+  width: 100%;
+  padding: 10px;
+  background: var(--green-main);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+.primary:hover {
+  background: var(--green-hover);
+}
+.primary:active {
+  background: var(--green-press);
+}
+.account-error {
+  color: red;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+/* スマホ用ボトムナビ */
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 56px;
+  background: #fff;
+  border-top: 1px solid #e0e0e0;
+  display: none;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 1000;
+}
+.bottom-nav-item {
+  flex: 1;
+  height: 100%;
+  border: none;
+  background: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  color: #666;
+}
+.bottom-nav-item .icon {
+  font-size: 20px;
+}
+.bottom-nav-item.active {
+  color: var(--green-main);
+  font-weight: 600;
+}
+
+/* レスポンシブ */
+@media (max-width: 900px) {
+  .sidebar-left {
+    display: none;
+  }
+  .timeline {
+    margin-left: 0;
+    max-width: 100%;
+    padding-bottom: 80px;
+  }
+  .new-post-card {
+    margin: 12px 10px;
+  }
+  .bottom-nav {
+    display: flex;
+  }
+}
